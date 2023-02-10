@@ -17,6 +17,7 @@ const NoteItem = (props) => {
             <MdDeleteOutline
               onClick={() => {
                 deleteNote(note._id);
+                props.showAlert("Deleted Successfully", "success");
               }}
               style={{
                 cursor: "pointer",
@@ -24,7 +25,7 @@ const NoteItem = (props) => {
             />
             <BiEdit
               onClick={() => {
-                updateNote(note)
+                updateNote(note);
               }}
               className="mx-4"
               style={{

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { createBrowserHistory } from "@remix-run/router";
-const Login = () => {
-  const history = createBrowserHistory();
+import { useNavigate } from "react-router-dom";
+const Login = (props) => {
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,9 +20,11 @@ const Login = () => {
     if (json.success) {
       // SAVE THE AUTH TOKEN AND REDIRECT
       localStorage.setItem("token", json.authtoken);
-      history.push("/");
+
+      props.showAlert("Login Successfully", "danger");
+      navigate("/");
     } else {
-      alert("Invalid credentials");
+      props.showAlert("Invalid Details", "danger");
     }
   };
 

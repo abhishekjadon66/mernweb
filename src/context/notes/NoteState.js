@@ -12,7 +12,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application-json",
-        "auth-token": "",
+        "auth-token": localStorage.getItem("token"),
       },
     });
     const json = await response.json();
@@ -26,7 +26,7 @@ const NoteState = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "applicaton/json",
-        "auth-token": "",
+        "auth-token": localStorage.getItem("token"),
       },
       body: JSON.stringify({ title, description, tag }),
     });
@@ -42,7 +42,7 @@ const NoteState = (props) => {
       method: "DELETE",
       headers: {
         "Content-Type": "applicaton/json",
-        "auth-token": "",
+        "auth-token": localStorage.getItem("token"),
       },
     });
     const json = response.json();
@@ -57,11 +57,11 @@ const NoteState = (props) => {
   // Edit a Note
   const editNote = async (id, title, description, tag) => {
     // API CALL
-    const response = await fetch(`${host}/api/notes/updatenote${id}`, {
+    const response = await fetch(`${host}api/notes/updatenote/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "applicaton/json",
-        "auth-token": "",
+        "auth-token": localStorage.getItem("token"),
       },
       body: JSON.stringify({ title, description, tag }),
     });

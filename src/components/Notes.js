@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import noteContext from "../context/notes/noteContext";
 import AddNote from "./AddNote";
 import NoteItem from "./NoteItem";
-const Notes = () => {
+import { createBrowserHistory } from "@remix-run/router";
+const Notes = (props) => {
   const context = useContext(noteContext);
+  let history = createBrowserHistory();
   const { notes, getNotes, editNote } = context;
   const [note, setNote] = useState({
     id: "",
@@ -12,7 +14,12 @@ const Notes = () => {
     etag: "default",
   });
   useEffect(() => {
-    getNotes();
+    if (localStorage.getItem("token")) {
+      getNotes();
+    } else {
+      history.push("/login");
+    }
+
     // eslint-disable-next-line
   }, []);
 
@@ -33,6 +40,7 @@ const Notes = () => {
     console.log("Updating the note..", note);
     editNote(note.id, note.etitle, note.edescription, note.etag);
     refClose.current.click();
+    props.showAlert("Deleted Successfully", "success");
   };
 
   const onChange = (e) => {
@@ -40,7 +48,7 @@ const Notes = () => {
   };
   return (
     <>
-      <AddNote />
+      <AddNote showAlert={props.showAlert} />
       {/* 
 <!-- Modal --> */}
       <button
@@ -151,7 +159,12 @@ const Notes = () => {
         </div>
         {notes.map((note) => {
           return (
-            <NoteItem key={note._id} note={note} updateNote={updateNote} />
+            <NoteItem
+              key={note._id}
+              note={note}
+              updateNote={updateNote}
+              showAlert={props.showAlert}
+            />
           );
         })}
       </div>

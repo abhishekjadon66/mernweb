@@ -1,16 +1,23 @@
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import image from "./image/logo2.png";
 const NavBar = () => {
+  let navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   let location = useLocation();
   useEffect(() => {
     console.log(location.pathname);
   }, [location]);
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            MERN
+            <img src={image} alt="Error" style={{ width: "100px" }} />
           </Link>
           <button
             className="navbar-toggler"
@@ -47,15 +54,106 @@ const NavBar = () => {
                   About
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${
+                    location.pathname === "/services" ? "active" : ""
+                  }`}
+                  aria-current="page"
+                  to="/services"
+                >
+                  Services
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${
+                    location.pathname === "/career" ? "active" : ""
+                  }`}
+                  aria-current="page"
+                  to="/career"
+                >
+                  Career
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${
+                    location.pathname === "/clients" ? "active" : ""
+                  }`}
+                  aria-current="page"
+                  to="/clients"
+                >
+                  Clients
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${
+                    location.pathname === "/products" ? "active" : ""
+                  }`}
+                  aria-current="page"
+                  to="/products"
+                >
+                  Products
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${
+                    location.pathname === "/statistics" ? "active" : ""
+                  }`}
+                  aria-current="page"
+                  to="/statistics"
+                >
+                  Statistics
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${
+                    location.pathname === "/blog" ? "active" : ""
+                  }`}
+                  aria-current="page"
+                  to="/blog"
+                >
+                  Blog
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${
+                    location.pathname === "/contact" ? "active" : ""
+                  }`}
+                  aria-current="page"
+                  to="/contact"
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
-            <form className="d-flex">
-              <Link className="btn btn-primary mx-1" to="/login" role="button">
-                Login
-              </Link>
-              <Link className="btn btn-primary mx-1" to="/signup" role="button">
-                Signup
-              </Link>
-            </form>
+            {!localStorage.getItem("token") ? (
+              <form className="d-flex">
+                <Link
+                  className="btn btn-primary mx-1"
+                  to="/login"
+                  role="button"
+                >
+                  Login
+                </Link>
+                <Link
+                  className="btn btn-primary mx-1"
+                  to="/signup"
+                  role="button"
+                >
+                  Signup
+                </Link>
+              </form>
+            ) : (
+              <button onClick={handleLogout} className="btn btn-primary">
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </nav>
